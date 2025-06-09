@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tỏ tình</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    #startBtn {
+      position: absolute; top: 30px; left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 28px; font-size: 18px;
+      background: white; color: black;
+      border: none; border-radius: 20px;
+      cursor: pointer; z-index: 10;
+      box-shadow: 0 0 15px #fff;
+    }
+    .text {
+      position: absolute; white-space: nowrap;
+      color: white; font-size: 14px; opacity: 0.6;
+      filter: drop-shadow(0 0 3px #ff69b4);
+      pointer-events: none;
+      animation-name: floatUp;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      transform: rotate(-5deg); /* chữ nghiêng nhẹ */
+    }
+    .highlight {
+      opacity: 1; font-size: 20px; font-weight: 900;
+      color: #fff;
+      text-shadow:
+        0 0 10px #ff1493,
+        0 0 20px #ff1493,
+        0 0 30px #ff69b4,
+        0 0 40px #ff69b4,
+        0 0 50px #ff69b4,
+        0 0 60px #ff69b4;
+      filter: none;
+      /* giữ nghiêng cho highlight luôn */
+      transform: rotate(-5deg);
+    }
+    @keyframes floatUp {
+      0%   { top: 100vh; opacity: 0 }
+      10%  { opacity: 0.6 }
+      100% { top: -50px; opacity: 0 }
+    }
+  </style>
+</head>
+<body>
+  <button id="startBtn">Bắt đầu</button>
+
+  <audio id="bgm" loop>
+    <source src="data:audio/mp3;base64,//uQZAAA..." type="audio/mp3">
+  </audio>
+
+  <script>
+    const msgs = [
+      "M rất xinh đẹp", "T thích M", "Làm người yêu T nhé", "made by THS",
+      "T yêu M nhiều lắm", "M là cả thế giới của T", "T nhớ M mỗi ngày",
+      "M đặc biệt", "T muốn ở bên M mãi mãi", "M làm tim T rung động"
+    ];
+
+    function spawnText() {
+      const el = document.createElement('div');
+      const h = Math.random() < 0.25;
+      el.className = 'text' + (h ? ' highlight' : '');
+      const icons = ["❤️","🌹","✨","😍","💖"];
+      const msg = msgs[Math.floor(Math.random()*msgs.length)];
+      const icon = Math.random()<0.7 ? icons[Math.floor(Math.random()*icons.length)] + ' ' : '';
+      el.textContent = icon + msg;
+      el.style.left = (Math.random()*90+5)+'vw';
+      el.style.top = '100vh';
+      el.style.animationDuration = (h ? 5 : 7)+'s';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 7000);
+    }
+
+    document.getElementById('startBtn').onclick = () => {
+      document.getElementById('startBtn').remove();
+      setInterval(spawnText, 150);
+      const bgm = document.getElementById('bgm');
+      bgm.volume = 0.2;
+      bgm.play().catch(()=>{});
+    };
+  </script>
+</body>
+</html>
